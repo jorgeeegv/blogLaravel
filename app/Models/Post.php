@@ -12,5 +12,9 @@ class Post extends Model
     use HasFactory;
     public $timestamps=false;
 
+    public function autor()
+    {
+        return $this->belongsTo('App\Models\Autor');
+    }
 
 }
