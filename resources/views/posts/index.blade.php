@@ -10,6 +10,7 @@
 <tr>
  <td><b>{{ $post->titulo }}<b></td>
 <td><p>{{ $post->contenido }}</p></td>
+<td><p>{{ $post->autor->nombre }}</p></td>
 <td>
 <form action="{{ route('post.destroy', $post['id']) }}" method="POST">
  @method('DELETE')
