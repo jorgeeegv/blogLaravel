@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
+Route::get('/',function(){
+    return view('posts/inicio');
+});
 
 Route::get('/post/nuevoprueba', [PostController::class, 'nuevoPrueba']);
 
