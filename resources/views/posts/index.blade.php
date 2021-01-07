@@ -12,20 +12,20 @@
 <td scope="row"><p>{{ $post->contenido }}</p></td>
 <td scope="row"><p>( {{ $post->autor->nombre }} )</p></td>
 <td>
-<form action="{{ route('post.destroy', $post['id']) }}" method="POST">
+<form action="{{ route('posts.destroy', $post['id']) }}" method="POST">
  @method('DELETE')
  @csrf
  <button class="btn btn-danger">Borrar</button>
 </form>
 </td>
 <td>
-<form action="{{ route('post.edit', $post['id']) }}" method="GET">
+<form action="{{ route('posts.edit', $post['id']) }}" method="GET">
  @csrf
  <button class="btn btn-success">Editar</button>
 </form>
 </td>
 <td>
-<form action="{{ route('post.show', $post['id']) }}" method="GET">
+<form action="{{ route('posts.show', $post['id']) }}" method="GET">
  @csrf
  <button class="btn btn-warning">Ver</button>
 </form>

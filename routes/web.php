@@ -24,7 +24,7 @@ Route::get('/post/nuevoprueba', [PostController::class, 'nuevoPrueba']);
 
 Route::get('/post/editarPrueba/{id}', [PostController::class, 'editarPrueba']);
 
-Route::resource('post', PostController::class);
+Route::resource('posts', PostController::class);
 Route::get('/relacionprueba', function () {
     $autor = Autor::findOrFail(1);
     $post = new Post();
