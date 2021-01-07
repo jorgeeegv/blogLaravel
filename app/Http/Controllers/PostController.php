@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Autor;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -25,7 +26,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return redirect()->route('post.index');
+        $autores = Autor::get();
+        return view('posts.create', compact('autores'));
     }
 
     /**
@@ -36,6 +38,19 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        request()->validate(
+            [
+                'titulo' => 'required|min:3',
+                'contenido' => 'required',
+            ]
+        );
+        $post = new Post();
+        $post->titulo = $request->get('titulo');
+        $post->contenido = $request->get('contenido');
+        $post->autor()->associate(Autor::findOrFail($request->get('autor')));
+        $post->save();
+        return redirect()->route('posts.index');
+
     }
 
     /**
@@ -81,27 +96,7 @@ class PostController extends Controller
         return view('posts.index', compact('posts'));
     }
 
-    public function nuevoPrueba()
-    {
-        $post = new Post();
-        $post->titulo =
-        "Titulo " . rand(0, 100);
-        $post->contenido =
-        "Contenido " . rand(0, 100);
-        $post->save();
-        $posts = Post::get();
-        return view('posts.index', compact('posts'));
 
-    }
-
-    public function editarPrueba($id)
-    {
-        $post = Post::find($id);
-        $post['titulo'] = "Titulo " . rand(0, 100);
-        $post['contenido'] = "Contenido " . rand(0, 100);
-        $post->save();
-        return redirect()->route('post.index');
-    }
     public function show($id)
     {
         $post = Post::find($id);
