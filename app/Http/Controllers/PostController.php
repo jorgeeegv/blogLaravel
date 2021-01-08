@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Autor;
 use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
 
 class PostController extends Controller
 {
@@ -36,14 +37,8 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        request()->validate(
-            [
-                'titulo' => 'required|min:3',
-                'contenido' => 'required',
-            ]
-        );
+    public function store(PostRequest $request){ 
+    
         $post = new Post();
         $post->titulo = $request->get('titulo');
         $post->contenido = $request->get('contenido');
@@ -68,7 +63,8 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        return ("Formulario de edicion de "+$id);
+        $post = Post::findOrFail($id);
+        return view ('posts.edit',compact('post'));
     }
 
     /**
@@ -78,9 +74,13 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PostRequest $request, $id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->titulo = $request->get('titulo');
+        $post->contenido = $request->get('contenido');
+        $post->save();
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -89,9 +89,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        Post::findOrFail($id)->delete();
+        Post::findOrFail($post->id)->delete();
         $posts = Post::get();
         return view('posts.index', compact('posts'));
     }
