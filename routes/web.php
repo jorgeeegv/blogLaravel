@@ -1,6 +1,6 @@
 <?php
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\AutorController;
 use App\Models\Autor;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
@@ -18,17 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/',function(){
     return view('posts/inicio');
-});
+})->name('inicio');
+Route::get('login', [LoginController::class, 'loginForm'])->name('login');
+Route::post('login', [LoginController::class, 'login']);
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+Route::resource('posts', PostController::class)->middleware('auth');
 
-Route::get('/post/nuevoprueba', [PostController::class, 'nuevoPrueba']);
-Route::resource('posts', PostController::class);
-Route::get('/relacionprueba', function () {
-    $autor = Autor::findOrFail(1);
-    $post = new Post();
-    $post->titulo = "Post de prueba " . rand();
-    $post->contenido = "Contenido de prueba ";
-    $post->autor()->associate($autor);
-    $post->save();
-    return redirect()->route('post.index');
-});
 
