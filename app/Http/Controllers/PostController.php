@@ -12,10 +12,7 @@ class PostController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(
-            'auth',
-            ['only' => ['create', 'store', 'edit', 'update', 'destroy']]
-        );
+        $this->middleware(['auth', 'roles:admin']);
     }
     /**
      * Display a listing of the resource.
