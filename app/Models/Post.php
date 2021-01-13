@@ -12,9 +12,9 @@ class Post extends Model
     use HasFactory;
     public $timestamps=false;
 
-    public function autor()
+    public function usuario()
     {
-        return $this->belongsTo('App\Models\Autor');
+        return $this->belongsTo('App\Models\User');
     }
 
 

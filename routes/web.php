@@ -1,8 +1,7 @@
 <?php
+
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PostController;
-use App\Models\Autor;
-use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,12 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/',function(){
+Route::get('/', function () {
     return view('posts/inicio');
 })->name('inicio');
 Route::get('login', [LoginController::class, 'loginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 Route::resource('posts', PostController::class)->middleware('auth');
-
-

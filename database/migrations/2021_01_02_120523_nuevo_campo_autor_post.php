@@ -14,7 +14,7 @@ class NuevoCampoAutorPost extends Migration
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->integer('autor_id');
+            $table->integer('usuario_id');
         });
     }
 

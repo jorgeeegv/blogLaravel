@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Models\Autor;
+use App\Models;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
+use App\Models\User;
 
 class PostController extends Controller
 {
@@ -23,7 +24,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('autor')->get();
+        $posts = Post::with('usuario')->get();
         return view('posts.index', compact('posts'));
     }
 
@@ -34,8 +35,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        $autores = Autor::get();
-        return view('posts.create', compact('autores'));
+        $usuarios = User::get();
+        return view('posts.create', compact('usuarios'));
     }
 
     /**
@@ -49,7 +50,7 @@ class PostController extends Controller
         $post = new Post();
         $post->titulo = $request->get('titulo');
         $post->contenido = $request->get('contenido');
-        $post->autor()->associate(Autor::findOrFail($request->get('autor')));
+        $post->usuario()->associate(User::findOrFail($request->get('usuario')));
         $post->save();
         return redirect()->route('posts.index');
 

@@ -12,6 +12,10 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
    protected $table = 'usuarios';
+    public function posts()
+    {
+        return $this->hasMany('App\Models\Post');
+    }
     /**
      * The attributes that are mass assignable.
      *

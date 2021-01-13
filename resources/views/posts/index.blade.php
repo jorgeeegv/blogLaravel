@@ -10,7 +10,7 @@
 <tr>
  <td scope="row"><b>{{ $post->titulo }}<b></td>
 <td scope="row"><p>{{ $post->contenido }}</p></td>
-<td scope="row"><p>( {{ $post->autor->nombre }} )</p></td>
+<td scope="row"><p>( {{ $post->usuario->login }} )</p></td>
 <td>
 <form action="{{ route('posts.destroy', $post) }}" method="POST">
     @csrf
