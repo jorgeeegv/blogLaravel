@@ -7,12 +7,20 @@ use App\Models;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'roles:admin']);
+        $this->middleware(['auth', 'roles:admin'],
+    ['only' => ['edit','update','destroy']]);
+
+        $this->middleware(
+            ['auth'],
+            ['only' => ['store','create']]
+        );
+
     }
     /**
      * Display a listing of the resource.
@@ -21,7 +29,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('usuario')->get();
+        $posts = Post::get();
         return view('posts.index', compact('posts'));
     }
 
@@ -47,7 +55,7 @@ class PostController extends Controller
         $post = new Post();
         $post->titulo = $request->get('titulo');
         $post->contenido = $request->get('contenido');
-        $post->usuario()->associate(User::findOrFail($request->get('usuario')));
+        $post->usuario_id = Auth::user()->id;
         $post->save();
         return redirect()->route('posts.index');
 
@@ -94,9 +102,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
-    {
-        Post::findOrFail($post->id)->delete();
+    public function destroy($id)
+    { 
+        Post::findOrFail($id)->delete();
         $posts = Post::get();
         return view('posts.index', compact('posts'));
     }

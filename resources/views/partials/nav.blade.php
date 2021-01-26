@@ -8,15 +8,19 @@
         <a href="{{ route('posts.create') }}" class="btn btn-secondary">Crear Post</a>
         &nbsp;&nbsp;
     </div>
-    <div class="ml-auto">
-        <a href="{{ route('logout') }}" class="btn btn-secondary">Logout</a>
-        &nbsp;&nbsp;
-        @else
-        <a href="{{ route('login') }}" class="btn btn-secondary">Login</a>
+    <b class="ml-auto text-success">{{ auth()->user()->login}}</b>
 
+
+    <div class="mr-0">
+        <a href="{{ route('logout') }}" class="ml-3 btn btn-danger">Logout</a>
         &nbsp;&nbsp;
-        @endif
-        </div>
-        <b class="ml-auto text-white">{{ fechaActual()}}</b>
     
+         @else
+         <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
+
+         &nbsp;&nbsp;    
+        @endif
+        <b class="ml-1 text-white">{{ fechaActual()}}</b>
+    </div>
+
 </nav>

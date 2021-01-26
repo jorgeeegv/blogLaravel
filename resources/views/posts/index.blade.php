@@ -16,8 +16,10 @@
             <p>( {{ $post->usuario->login }} )</p>
         </td>
         <td>
-            @if (auth()->user()->rol === 'admin')
-            <form action="{{ route('posts.destroy', $post) }}" method="POST">
+            @if (auth()->check() && ( auth()->user()->rol == 'admin' || auth()->user()->login == $post->usuario->login ))
+
+
+            <form action="{{ route('posts.destroy', $post->id ) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button class="btn btn-danger">Borrar</button>
@@ -26,16 +28,16 @@
         <td>
             <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-warning">Editar</a>
         </td>
-         <td>
-             <a href="{{ route('posts.show', $post->id) }}" class="btn btn-success">Ver</a>
-         </td>
-         </tr>
-         @if (auth()->user()->rol === 'editor')
         <td>
             <a href="{{ route('posts.show', $post->id) }}" class="btn btn-success">Ver</a>
         </td>
     </tr>
-@endif
+    @else
+    <td>
+        <a href="{{ route('posts.show', $post->id) }}" class="btn btn-success">Ver</a>
+    </td>
+    </tr>
+    @endif
     @endforeach
 </table>
 @endsection
